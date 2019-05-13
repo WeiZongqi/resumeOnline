@@ -13,10 +13,6 @@
             return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
         };
 
-
-
-
-
     var asyncGenerator = function () {
         function AwaitValue(value) {
             this.value = value;
@@ -130,20 +126,6 @@
         };
     }();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     var get$1 = function get$1(object, property, receiver) {
         if (object === null) object = Function.prototype;
         var desc = Object.getOwnPropertyDescriptor(object, property);
@@ -168,22 +150,6 @@
             return getter.call(receiver);
         }
     };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     var set$1 = function set$1(object, property, value, receiver) {
         var desc = Object.getOwnPropertyDescriptor(object, property);

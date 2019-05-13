@@ -1,189 +1,346 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
-    <title>简历生成器</title>
+    <title>蓝领进化圈 简历在线制作</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remodal/1.1.0/remodal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remodal/1.1.0/remodal-default-theme.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/remodal/1.1.0/remodal.min.js"></script>
     <script src="js/script.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    
+    <script type="text/javascript">
+        // 跳出弹窗
+        window.onload = function(){
+            // 获取本文件的绝对路径
+            var pathimg = ""+location.href;
+            // 获取本文件的上一级绝对路径
+            pathimg = pathimg.split("index.html")[0];
+            // 弹框函数定义
+            swal({
+              // 输出logo图片
+              icon:pathimg+"images/LOGO.jpg",
+              // 设置标题
+              title: "使用说明",
+              // 设置说明内容
+              text: "1. 页面两边上半部分都可以点击右上角的加号添加空格以调整模块高度；\n\r"+
+              "2. 每个模块的右上角都有叉号和加号，点击叉号可以删除模块，点击加号可以增加字段；\n\r"+
+              "3. 每个模板下的字段的右上角都有叉号，点击可以删除字段；\n\r"+
+              "4. 编辑好各字段内容后点击左上角的导出即可导出简历的PDF文件，打印好简历后记得在照片的位置贴上自己的证件照哦！\n\r"
+            });  
+        }
+    </script>
+    
+    <style>
+    /*设置弹窗大小*/
+    .swal-modal {
+      width: 700px;
+      height: 900px;
+    }
+    /*设置弹窗外背景*/
+    .swal-overlay {
+      background-color: rgba(43, 165, 137, 0.45);
+      border: 3px solid white;
+    }
+    /*设置图片属性*/
+    .swal-icon img {
+      margin-top: 35px;
+      max-width: 15%;
+      max-height: 15%;
+      border-radius:100%
+    }
+    /*设置标题属性*/
+    .swal-title {
+      margin-top: 25px;
+      font-size: 40px;
+    }
+    /*设置说明内容属性*/
+    .swal-text {
+      font-size: 27px;
+      line-height: 44px;
+      background-color: #FEFAE3;
+      padding: 20px;
+      border: 1px solid #F0E1A1;
+      display: block;
+      margin-top: 35px;
+      margin-right: 65px;
+      margin-bottom: 20px;
+      margin-left: 65px;
+      color: #61534e;
+    }
+    /*设置按钮属性*/
+    .swal-footer {
+      text-align: center;
+      padding-top: 12px;
+      padding-right: 26px;
+      padding-bottom: 12px;
+      padding-left: 26px;
+    }
+    </style>
+
 </head>
 
 <body>
     <div class="container" id="cv">
+        <!-- 设置左侧内容属性 -->
         <div class="side">
-            <div class="me">
-                <div class="portrait"></div>
-                <div class="remodal remodal-img" data-remodal-id="portrait-modal">
-                    <h3>请输入图片URL地址：</h3>
-                    <br/>
-                    <input type="text" id="avatar-url">
-                    <button data-remodal-action="confirm" class="remodal-confirm">确定</button>
-                </div>
-                <h1 id="username" >Dr.Ding</h1>
-                <h4 id="persona-tag" >C / C++ / Java</h4>
-            </div>
-            <div class="profile info-unit">
-                <h2 class="info-header"><i class="iconfont icon-person"></i> <span class="info-title">基本信息</span></h2>
-                <hr>
+            <!-- //添加空格; -->
+            <div class="blank info-unit">
+                <h2 class="info-header"><span class="info-title"></span></h2>
                 <ul class="info-list">
-                    <li>
-                        <label class="left-label">姓名</label><span class="label-value">XXX</span></li>
-                    <li>
-                        <label class="left-label">学历</label><span class="label-value">本科</span></li>
-                    <li>
-                        <label class="left-label">毕业院校</label><span class="label-value">安徽师范大学</span></li>
-                    <li>
-                        <label class="left-label">毕业年份</label><span class="label-value">2019</span></li>
+                     <!-- 不显示此行以作备份 -->
+                     <li style="display: none;"><span class="label-value"></span></li>
+                     <!-- 照常显示 -->
+                     <li><span class="label-value"></span></li>
+                     <li><span class="label-value"></span></li>
+                     <li><span class="label-value"></span></li>
                 </ul>
             </div>
+            <!-- 照片框、姓名、应聘岗位部分 -->
+            <div class="me">
+                <!-- 照片框部分设置id以方便后续操作 -->
+                <div class="portrait" id="but2file" style="font-size: 30px; line-height:145px;color: #607d8b;">导出</div>
+                <br/>
+                <h1 id="username" style="font-size: 30px">姓名</h1>
+                <br/>
+                <h4 id="persona-tag" style="font-size: 22px">应聘岗位</h4>
+                <br/>
+            </div>
+            <!-- 设置基本信息初始化内容 -->
+            <div class="profile info-unit">
+                <!-- 设置标题栏的格式、图标、名字 -->
+                <h2 class="info-header"><i class="iconfont icon-person"></i> <span class="info-title">基本信息</span></h2>
+                <!-- 添加横线 -->
+                <hr>
+                <ul class="info-list">
+                    <li style="display: none;">
+                        <label class="left-label">姓名</label><span class="label-value">xxx</span></li>
+                    <li>
+                        <label class="left-label">姓名</label><span class="label-value">xxx</span></li>
+                    <li>
+                        <label class="left-label">性别</label><span class="label-value">男/女</span></li>
+                    <li>
+                        <label class="left-label">年龄</label><span class="label-value">xx</span></li>
+                    <li>
+                        <label class="left-label">籍贯</label><span class="label-value">xx省xx市</span></li>
+                    <li>
+                        <label class="left-label">学历</label><span class="label-value">xx</span></li>
+                    <li>
+                        <label class="left-label">毕业院校</label><span class="label-value">xxxx学校</span></li>
+                    <li>
+                        <label class="left-label">毕业年份</label><span class="label-value">xxxx年</span></li>
+                    <li>
+                        <label class="left-label">政治面貌</label><span class="label-value">群众/共青团员/中共党员</span></li>
+                </ul>
+            </div>
+            <br/>
+            <!-- 设置联系方式初始化内容 -->
             <div class="contact info-unit">
                 <h2 class="info-header"><i class="iconfont icon-call"></i> <span class="info-title">联系方式</span></h2>
                 <hr>
                 <ul class="info-list">
+                    <li style="display: none;">
+                        <label class="left-label">手机</label><span class="label-value">手机号</span></li>
                     <li>
-                        <label class="left-label">手机</label><span class="label-value">177XXXXXXXX</span></li>
+                        <label class="left-label">手机</label><span class="label-value">手机号</span></li>
                     <li>
-                        <label class="left-label">邮箱</label><span class="label-value">4893*****@qq.com</span></li>
+                        <label class="left-label">邮箱</label><span class="label-value">邮箱地址</span></li>
                     <li>
-                        <label class="left-label">个人主页</label><span class="label-value">rocj.github.io</span></li>
+                        <label class="left-label">微信</label><span class="label-value">微信号</span></li>
                     <li>
-                        <label class="left-label">Github</label><span class="label-value">github.com/rocj</span></li>
+                        <label class="left-label">QQ</label><span class="label-value">QQ号</span></li>
                 </ul>
             </div>
-            <div class="skill info-unit">
-                <h2 class="info-header"><i class="iconfont icon-star"></i> <span class="info-title">技能点</span></h2>
-                <hr>
-                <ul class="progress-list">
-                    <li>
-                        <label class="left-label">C/C++</label>
-                        <progress value="80" max="100"></progress>
-                    </li>
-                    <li>
-                        <label class="left-label">html/css</label>
-                        <progress value="70" max="100"></progress>
-                    </li>
-                    <li>
-                        <label class="left-label">Java</label>
-                        <progress value="60" max="100"></progress>
-                    </li>
-                    <li>
-                        <label class="left-label">数据结构</label>
-                        <progress value="60" max="100"></progress>
-                    </li>
-                </ul>
-            </div>
+            <br/>
+            <!-- 设置职业资格或等级证书初始化内容 -->
             <div class="stack info-unit">
-                <h2 class="info-header"><i class="iconfont icon-build"></i> <span class="info-title">技术栈</span></h2>
+                <h2 class="info-header"><i class="iconfont icon-build"></i> <span class="info-title">职业资格等级证书</span></h2>
                 <hr>
                 <ul class="stack-list">
+                    <li style="display: none;">
+                        <label class="left-label">证书1</label><span class="label-value">分数或等级</span></li>
                     <li>
-                        <label class="left-label">前端</label><span class="label-value">jQuery、Angular.js、React.js</span></li>
-                    </li>
+                        <label class="left-label">证书1</label><span class="label-value">分数或等级</span></li>
                     <li>
-                        <label class="left-label">后端</label><span class="label-value">Flask、Django、Twisted、Node.js、MongoDB、MySQL、Redis</span></li>
-                    </li>
+                        <label class="left-label">证书2</label><span class="label-value">分数或等级</span></li>
                     <li>
-                        <label class="left-label">其它</label><span class="label-value">我全都是瞎写的。</span></li>
-                    </li>
+                        <label class="left-label">证书3</label><span class="label-value">分数或等级</span></li>
                 </ul>
             </div>
-
-            <div class="code info-unit">
-                <h2 class="info-header"><i class="iconfont icon-weixin"></i> <span class="info-title">个人微信</span></h2>
+            <br/>            
+            <!-- 设置主要技能初始化内容 -->
+            <div class="skill info-unit">
+                <h2 class="info-header"><i class="iconfont icon-star"></i> <span class="info-title">主要技能</span></h2>
                 <hr>
-                <div class="weixin">
-                    <img src="images/weixin.jpg" alt="">
-
-                </div>
-            </div>
-            <div class="remodal remodal-img" data-remodal-id="weixin-modal">
-                <h3>请输入图片URL地址：</h3>
-                <br/>
-                <input type="text" id="weixin-url">
-                <button data-remodal-action="confirm" class="remodal-confirm">确定</button>
+                <ul class="progress-list">
+                    <li style="display: none;">
+                        <label class="left-label">技能1</label><span class="label-value">掌握/熟练/精通</span></li>
+                    <li>
+                        <label class="left-label">技能1</label><span class="label-value">掌握/熟练/精通</span></li>
+                    <li>
+                        <label class="left-label">技能2</label><span class="label-value">掌握/熟练/精通</span></li>
+                    <li>
+                        <label class="left-label">技能3</label><span class="label-value">掌握/熟练/精通</span></li>
+                </ul>
             </div>
         </div>
+        <!-- 设置右侧内容属性 -->
         <div class="main">
+            <!-- //添加空格; -->
+            <div class="blank info-unit">
+                <h2 class="info-header"><span class="info-title"></span></h2>
+                <ul class="info-list">
+                    <li style="display: none;">
+                        <label class="left-label"></label><span class="label-value"></span></li>
+                    <li>
+                        <label class="left-label"></label><span class="label-value"></span></li>
+                </ul>
+            </div>
+            <!-- 设置教育经历初始化内容 -->
             <div class="education info-unit right-list">
                 <h2 class="info-header"><i class="iconfont icon-education"></i> <span class="info-title">教育经历</span></h2>
                 <hr>
                 <ul class="experience-list">
-                    <li>
-                        <h3>安徽师范大学 - 计算机科学与技术专业（本科）2015-2017</h3>
+                    <li style="display: none;">
+                        <h3>xxxx学校 - xxxx专业（xx学历） xxxx年xx月-xxxx年xx月</h3>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            在校期间学习生活情况。
+                        </p>
+                    </li>
+                    <li>
+                        <h3>xxxx学校 - xxxx专业（xx学历） xxxx年xx月-xxxx年xx月</h3>
+                        <p>
+                            在校期间学习生活情况。
+                        </p>
+                    </li>
+                    <li>
+                        <h3>xxxx学校 - xxxx专业（xx学历） xxxx年xx月-xxxx年xx月</h3>
+                        <p>
+                            在校期间学习生活情况。
                         </p>
                     </li>
                 </ul>
             </div>
+            <br/>
+            <!-- 设置实践经历初始化内容 -->
+            <div class="practical info-unit right-list">
+                <h2 class="info-header"><i class="iconfont icon-extension"></i> <span class="info-title">实践经历</span></h2>
+                <hr>
+                <ul class="experience-list">
+                    <li style="display: none;">
+                        <h3>xxxx组织 - xxxx职位 xxxx年xx月-xxxx年xx月</h3>
+                        <p>
+                            实践主要事迹说明。
+                        </p>
+                    </li>
+                    <li>
+                        <h3>xxxx组织 - xxxx职位 xxxx年xx月-xxxx年xx月</h3>
+                        <p>
+                            实践主要事迹说明。
+                        </p>
+                    </li>
+                    <li>
+                        <h3>xxxx组织 - xxxx职位 xxxx年xx月-xxxx年xx月</h3>
+                        <p>
+                            实践主要事迹说明。
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <br/>
+            <!-- 设置工作经历初始化内容 -->
             <div class="work info-unit right-list">
                 <h2 class="info-header"><i class="iconfont icon-work"></i> <span class="info-title">工作经历</span></h2>
                 <hr>
                 <ul class="experience-list">
+                    <li style="display: none;">
+                        <h3>xxxx公司 - xxxx职位 xxxx年xx月-xxxx年xx月</h3>
+                        <p>
+                            实习或工作介绍。
+                        </p>
+                    </li>
                     <li>
-                        <h3>芜湖安风德（实习）</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        <h3>xxxx公司 - xxxx职位 xxxx年xx月-xxxx年xx月</h3>
+                        <p>
+                            实习或工作介绍。
+                        </p>
+                    </li>
+                    <li>
+                        <h3>xxxx公司 - xxxx职位 xxxx年xx月-xxxx年xx月</h3>
+                        <p>
+                            实习或工作介绍。
                         </p>
                     </li>
                 </ul class="experience-list">
             </div>
+            <br/>
+            <!-- 设置个人项目初始化内容 -->
             <div class="project info-unit right-list">
                 <h2 class="info-header"><i class="iconfont icon-project"></i> <span class="info-title">个人项目</span></h2>
                 <hr>
                 <ul class="experience-list">
-                    <li>
-                        <h3>基于 Qt 5 的文本编辑器</h3>
+                    <li style="display: none;">
+                        <h3>xxxx项目 xxxx年xx月-xxxx年xx月</h3>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam。Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            <br/>
+                            项目介绍。
                         </p>
                     </li>
                     <li>
-                        <h3>基于 Flask 的主机监视系统</h3>
+                        <h3>xxxx项目 xxxx年xx月-xxxx年xx月</h3>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                            项目介绍。
                         </p>
                     </li>
                     <li>
-                        <h3>找不到项目做啊:D</h3>
+                        <h3>xxxx项目 xxxx年xx月-xxxx年xx月</h3>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                            项目介绍。
                         </p>
                     </li>
                 </ul>
             </div>
-            <div class="trophy info-unit">
-                <h2 class="info-header"><i class="iconfont icon-trophy"></i> <span class="info-title">奖项与证书</span></h2>
+            <br/>
+            <!-- 设置获奖情况初始化内容 -->
+            <div class="trophy info-unit right-list">
+                <h2 class="info-header"><i class="iconfont icon-trophy"></i> <span class="info-title">获奖情况</span></h2>
                 <hr>
                 <ul class="experience-list">
-                    <li>
-                        <h3>小学生作文二等奖</h3>
+                    <li style="display: none;">
+                        <h3>xxxx奖项 获奖地点 xxxx年xx月-xxxx年xx月</h3>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam。
+                            奖项介绍。
                         </p>
                     </li> 
                     <li>
-                        <h3>曾获统一冰红茶“再来一瓶”奖</h3>
+                        <h3>xxxx奖项 获奖地点 xxxx年xx月-xxxx年xx月</h3>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam。
+                            奖项介绍。
                         </p>
                     </li> 
                     <li>
-                        <h3>这一行也是为了凑版面</h3>
+                        <h3>xxxx奖项 获奖地点 xxxx年xx月-xxxx年xx月</h3>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam。
+                            奖项介绍。
                         </p>
-                    </li>                     
+                    </li>
+                    <li>
+                        <h3>xxxx奖项 获奖地点 xxxx年xx月-xxxx年xx月</h3>
+                        <p>
+                            奖项介绍。
+                        </p>
+                    </li>
+                </ul>              
             </div>
+            <br/>
+            <!-- 设置自我评价初始化内容 -->
             <div class="aboutme info-unit right-paragraph">
                 <h2 class="info-header"><i class="iconfont icon-flower"></i> <span class="info-title">自我评价</span></h2>
                 <hr>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;正确的自我评价应该要做到与众不同，不用刻意标新立异，但是需言之有物、切中要害、简洁深刻，结合自身实际情况，突出自己的特点和长处，并且简要梳理自己的职业目标和规划。
                 </p>
             </div>
         </div>
@@ -191,52 +348,69 @@
 
     <script type="text/javascript" src="js/html2canvas.js"></script>
     <script type="text/javascript" src="js/jsPdf.debug.js"></script>
+    
     <script type="text/javascript">
+    // 下载PDF
+    // 获取"导出"模块的元素
+    var downPdf = document.getElementById("but2file");
+    // 设置鼠标动作效果
+    $('#but2file').mousedown(function(){
+        $('#but2file').css("background-color","#8E8E8E");
+    }).mouseup(function(){
+        $('#but2file').css("background-color","whitesmoke");
+    });
+    // 点击鼠标执行下载函数
+    downPdf.onclick = function() {
+        // 将"导出"改为"照片"
+        document.getElementById("but2file").innerHTML = "照片";
+        // 将弹窗隐藏
+        $('.swal-modal').css('display','none');
+        // 将html转为画布
+        html2canvas($('.contaner').innerHTML, {
+            // 截图函数
+            onrendered:function(canvas) {
+                // 获取写入简历的姓名
+                var username = $("#username")[0].innerHTML;
+                // 获取画布的宽高度
+                var contentWidth = canvas.width;
+                var contentHeight = canvas.height;
+                // 一页pdf显示html页面生成的画布高度（以A4纸的尺寸为比例）;
+                var pageHeight = contentWidth / 592.28 * 841.89;
+                //未生成pdf的html页面高度
+                var leftHeight = contentHeight;
+                //pdf页面偏移
+                var position = 0;
+                //a4纸的尺寸[595.28,841.89]，html页面生成的画布在pdf中图片的宽高
+                var imgWidth = 595.28;
+                var imgHeight = 592.28/contentWidth * contentHeight;
+                // 将画布变成图像的数据格式
+                var pageData = canvas.toDataURL('image/jpeg', 1.0);
+                // 实例化一个pdf的对象
+                var pdf = new jsPDF('', 'pt', 'a4');
 
-      var downPdf = document.getElementById("username");
-
-      downPdf.onclick = function() {
-          html2canvas(document.body, {
-              onrendered:function(canvas) {
-
-                  var contentWidth = canvas.width;
-                  var contentHeight = canvas.height;
-
-                  //一页pdf显示html页面生成的canvas高度;
-                  var pageHeight = contentWidth / 592.28 * 841.89;
-                  //未生成pdf的html页面高度
-                  var leftHeight = contentHeight;
-                  //pdf页面偏移
-                  var position = 0;
-                  //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
-                  var imgWidth = 595.28;
-                  var imgHeight = 592.28/contentWidth * contentHeight;
-
-                  var pageData = canvas.toDataURL('image/jpeg', 1.0);
-
-                  var pdf = new jsPDF('', 'pt', 'a4');
-
-                  //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
-                  //当内容未超过pdf一页显示的范围，无需分页
-                  if (leftHeight < pageHeight) {
-                      pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );
-                  } else {
-                      while(leftHeight > 0) {
-                          pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
-                          leftHeight -= pageHeight;
-                          position -= 841.89;
-                          //避免添加空白页
-                          if(leftHeight > 0) {
-                              pdf.addPage();
-                          }
-                      }
-                  }
-
-                  pdf.save('content.pdf');
-              }
-          })
-      }
+                //有两个高度需要区分，一个是html页面的实际高度，一个是生成的pdf的页面高度(841.89)
+                //当内容未超过pdf一页显示的范围，无需分页
+                if (leftHeight < pageHeight) {
+                    pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );
+                } else {
+                    //当内容超过pdf一页需要进入循环
+                    while(leftHeight > 0) {
+                        pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+                        leftHeight -= pageHeight;
+                        position -= 841.89;
+                        //避免添加空白页
+                        if(leftHeight > 0) {
+                          pdf.addPage();
+                        }
+                    }
+                }
+                // 保存简历，并设置文件的名称
+                pdf.save(username+' 简历.pdf');
+            }
+        })
+    }
     </script>
+
 </body>
 
 </html>
