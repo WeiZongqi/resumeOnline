@@ -102,6 +102,7 @@ footer {
 p {
     line-height: 1.5;
     font-size: 20px;
+    width:500px;
 }
 
 progress {
