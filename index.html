@@ -29,7 +29,8 @@
               text: "1. 页面两边上半部分都可以点击右上角的加号添加空格以调整模块高度；\n\r"+
               "2. 每个模块的右上角都有叉号和加号，点击叉号可以删除模块，点击加号可以增加字段；\n\r"+
               "3. 每个模板下的字段的右上角都有叉号，点击可以删除字段；\n\r"+
-              "4. 编辑好各字段内容后点击左上角的导出即可导出简历的PDF文件，打印好简历后记得在照片的位置贴上自己的证件照哦！\n\r"
+              "4. 编辑好各字段内容后点击左上角的导出即可导出简历的PDF文件，打印好简历后记得在照片的位置贴上自己的证件照哦；\n\r"+
+              "<注>请点击微信右上角用浏览器打开，才能下载简历哦！\n\r"
             });  
         }
     </script>
@@ -345,7 +346,7 @@
             </div>
         </div>
     </div>
-
+    <div id="but2file1" style="display: none;">
     <script type="text/javascript" src="js/html2canvas.js"></script>
     <script type="text/javascript" src="js/jsPdf.debug.js"></script>
     
@@ -359,8 +360,26 @@
     }).mouseup(function(){
         $('#but2file').css("background-color","whitesmoke");
     });
+
+
+
+    var ua = navigator.userAgent;
+    var isWeixin = !!/MicroMessenger/i.test(ua);
+    if(isWeixin){
+        ele.onclick=function(e){
+            window.event? window.event.returnValue = false : e.preventDefault();
+            document.getElementById('JweixinTip').style.display='block';
+        }
+        document.getElementById('JweixinTip').onclick=function(){
+            this.style.display='none';
+        }
+    }
+
+
+
+
     // 点击鼠标执行下载函数
-    downPdf.onclick = function() {
+    downPdf.onclick = function b2file() {
         // 将"导出"改为"照片"
         document.getElementById("but2file").innerHTML = "照片";
         // 将弹窗隐藏
