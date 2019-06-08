@@ -34,6 +34,27 @@
             });  
         }
     </script>
+    <script type="text/javascript">
+        //点击打印时，替换innerHTML内容并调用浏览器打印方法
+      function printPage(){
+
+            // 将"导出"改为"照片"
+            document.getElementById("but2file").innerHTML = "照片";
+            // 将弹窗隐藏
+            $('.swal-modal').css('display','none');
+
+            $("body").append("<!-- endprint -->");//打印之前添加结尾标志
+            bdhtml=window.document.body.innerHTML;  //获取到页面html
+            sprnstr="<!-- startprint -->";
+            eprnstr="<!-- endprint -->"; //找到两个标签
+            prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
+            prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr)); //切除标签以外的东西
+            window.document.body.innerHTML=prnhtml;
+            window.print();
+            window.document.body.innerHTML=bdhtml;//将页面重新改回原始样式
+            window.location.href=window.location.href; //此处是业务需要 由于有动态生成数据 直接返回样式会乱 所以手动刷新了一下
+      }
+    </script>
     
     <style>
     /*设置弹窗大小*/
@@ -85,6 +106,9 @@
 </head>
 
 <body>
+
+
+    <!-- startprint -->
     <div class="container" id="cv">
         <!-- 设置左侧内容属性 -->
         <div class="side">
@@ -103,7 +127,7 @@
             <!-- 照片框、姓名、应聘岗位部分 -->
             <div class="me">
                 <!-- 照片框部分设置id以方便后续操作 -->
-                <div class="portrait" id="but2file" style="font-size: 30px; line-height:145px;color: #607d8b;">导出</div>
+                <div class="portrait" id="but2file1" style="font-size: 30px; line-height:145px;color: #607d8b;" onclick="printPage();">导出</div>
                 <br/>
                 <h1 id="username" style="font-size: 30px">姓名</h1>
                 <br/>
@@ -346,6 +370,7 @@
             </div>
         </div>
     </div>
+    <!-- endprint -->
     <div id="but2file1" style="display: none;">
     <script type="text/javascript" src="js/html2canvas.js"></script>
     <script type="text/javascript" src="js/jsPdf.debug.js"></script>
