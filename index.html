@@ -34,27 +34,7 @@
             });  
         }
     </script>
-    <script type="text/javascript">
-        //点击打印时，替换innerHTML内容并调用浏览器打印方法
-      function printPage(){
-
-            // 将"导出"改为"照片"
-            document.getElementById("but2file").innerHTML = "照片";
-            // 将弹窗隐藏
-            $('.swal-modal').css('display','none');
-
-            $("body").append("<!-- endprint -->");//打印之前添加结尾标志
-            bdhtml=window.document.body.innerHTML;  //获取到页面html
-            sprnstr="<!-- startprint -->";
-            eprnstr="<!-- endprint -->"; //找到两个标签
-            prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
-            prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr)); //切除标签以外的东西
-            window.document.body.innerHTML=prnhtml;
-            window.print();
-            window.document.body.innerHTML=bdhtml;//将页面重新改回原始样式
-            window.location.href=window.location.href; //此处是业务需要 由于有动态生成数据 直接返回样式会乱 所以手动刷新了一下
-      }
-    </script>
+    
     
     <style>
     /*设置弹窗大小*/
@@ -375,6 +355,28 @@
     <script type="text/javascript" src="js/html2canvas.js"></script>
     <script type="text/javascript" src="js/jsPdf.debug.js"></script>
     
+
+    <script type="text/javascript">
+        //点击打印时，替换innerHTML内容并调用浏览器打印方法
+      function printPage(){
+
+            // 将"导出"改为"照片"
+            document.getElementById("but2file1").innerHTML = "照片";
+            // 将弹窗隐藏
+            $('.swal-modal').css('display','none');
+
+            $("body").append("<!-- endprint -->");//打印之前添加结尾标志
+            bdhtml=window.document.body.innerHTML;  //获取到页面html
+            sprnstr="<!-- startprint -->";
+            eprnstr="<!-- endprint -->"; //找到两个标签
+            prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);
+            prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr)); //切除标签以外的东西
+            window.document.body.innerHTML=prnhtml;
+            window.print();
+            window.document.body.innerHTML=bdhtml;//将页面重新改回原始样式
+            window.location.href=window.location.href; //此处是业务需要 由于有动态生成数据 直接返回样式会乱 所以手动刷新了一下
+      }
+    </script>
     <script type="text/javascript">
     // 下载PDF
     // 获取"导出"模块的元素
